@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all
+    @questions = Question.order(:priority)
   end
 
   def show
@@ -23,5 +23,15 @@ class QuestionsController < ApplicationController
     else
       render action: "new"
     end
-  end  
+  end 
+
+  def update
+    @question = Question.find(params[:id])
+
+    if @question.update_attributes(params[:question])
+      redirect_to @question, notice: 'Question was updated'  
+    else
+      render action: "edit"
+    end
+  end 
 end
